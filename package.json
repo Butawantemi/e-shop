@@ -1,0 +1,24 @@
+{
+  "name": "e-shop",
+  "version": "1.0.0",
+  "description": "e-commerce",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Butawantemi/e-shop.git"
+  },
+  "author": "Japhet Paul",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Butawantemi/e-shop/issues"
+  },
+  "homepage": "https://github.com/Butawantemi/e-shop#readme",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "nodemon": "^3.1.4"
+  }
+}
