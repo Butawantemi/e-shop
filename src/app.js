@@ -1,5 +1,5 @@
 const express = require('express');
-const { dbConnect } = require('./Config/dbConnection'); // Corrected file name
+const { dbConnect } = require('./Config/dbConnection');
 const authRoute = require('./Routes/auth.route');
 const app = express();
 require('dotenv').config();
@@ -14,8 +14,8 @@ const api = process.env.API_URL;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Routes 
-app.use(`${api}/user`, authRoute); // Corrected to use app.use for routes
+// Routes
+app.use(`${api}/user`, authRoute);
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
