@@ -47,7 +47,36 @@ const getallUsers = asyncHandler(async (req, res) => {
     }
 })
 
+// Get a single user and return the user object
+const getsingleUser = asyncHandler(async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id)
+        res.json(user)
+    }
+    catch (err) {
+        throw new Error(error)
+    }
+})
 
+// Update a user and return the updated user object
+const updateUser = asyncHandler(async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id)
+        if (user) {
+            user.firstname = req.body.firstname
+            user.lastname = req.body.lastname
+            user.email = req.body.email
+            user.mobile = req.body.mobile
+            user.password = req.body.password   
+        }else{
+            res.json({message: 'User not found'})
+        }
+        const updatedUser = await user.save()
+    }
+    catch (err) {
+        throw new Error(error)
+    }
+})
 
 
 
