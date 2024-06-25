@@ -72,6 +72,7 @@ const updateUser = asyncHandler(async (req, res) => {
             res.json({message: 'User not found'})
         }
         const updatedUser = await user.save()
+        res.json(updatedUser)
     }
     catch (err) {
         throw new Error(error)
@@ -81,4 +82,4 @@ const updateUser = asyncHandler(async (req, res) => {
 
 
 
-module.exports = { createUser, loginUser, getallUsers, getsingleUser };
+module.exports = { createUser, loginUser, getallUsers, getsingleUser, updateUser };
