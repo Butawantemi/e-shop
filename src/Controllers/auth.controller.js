@@ -2,6 +2,8 @@ const { genereteToken } = require('../Config/jwtToken');
 const User = require('../Models/user.model'); // Correct path
 const asyncHandler = require('express-async-handler');
 
+
+// Create a new user and return the user object
 const createUser = asyncHandler(async (req, res) => {
     const { email } = req.body;
     const existingUser = await User.findOne({ email });
@@ -14,6 +16,7 @@ const createUser = asyncHandler(async (req, res) => {
     }
 });
 
+// Login a user and return the user object with a token
 const loginUser = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
     const findUser = await User.findOne({ email });
@@ -32,4 +35,21 @@ const loginUser = asyncHandler(async (req, res) => {
     }
 });
 
-module.exports = { createUser, loginUser };
+
+// Get all users and return the user object
+const getallUsers = asyncHandler(async (req, res) => {
+    try {
+        const users = await User.find();
+        res.json(users)
+    }
+    catch (err) {
+        throw new Error(error)
+    }
+})
+
+
+
+
+
+
+module.exports = { createUser, loginUser, getallUsers, getsingleUser };
