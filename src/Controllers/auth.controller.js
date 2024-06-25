@@ -1,3 +1,4 @@
+const { genereteToken } = require('../Config/jwtToken');
 const User = require('../Models/user.model'); // Correct path
 const asyncHandler = require('express-async-handler');
 
@@ -24,6 +25,7 @@ const loginUser = asyncHandler(async (req, res) => {
             lastname: findUser.lastname,
             email: findUser.email,
             mobile: findUser.mobile,
+            token: genereteToken(findUser._id)
         });
     } else {
         res.status(401).json({ message: 'Invalid credentials' });
