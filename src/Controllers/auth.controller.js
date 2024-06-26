@@ -1,5 +1,5 @@
 const { genereteToken } = require('../Config/jwtToken');
-const User = require('../Models/user.model'); // Correct path
+const User = require('../Models/user.model');
 const asyncHandler = require('express-async-handler');
 
 
@@ -79,7 +79,19 @@ const updateUser = asyncHandler(async (req, res) => {
     }
 })
 
+// Deleta a user if the user exists
+const deleteUser = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    try {
+     const deleteUser = await User.findByIdAndDelete(id);
+      res.json({ deleteUser }); 
+    }
+    catch (err) {
+        throw new Error(error)
+    }
+})
 
 
 
-module.exports = { createUser, loginUser, getallUsers, getsingleUser, updateUser };
+
+module.exports = { createUser, loginUser, getallUsers, getsingleUser, updateUser, deleteUser };

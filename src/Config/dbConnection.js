@@ -3,7 +3,8 @@ require('dotenv/config')
 
 // Connect to MongoDB
 const dbConnect = () => {
-    mongoose.connect(process.env.DATABASE_URL)
+    mongoose.connect(process.env.DATABASE_URL,
+        )
       .then(() =>{
           console.log("Database is seccessfully connected")
       })
