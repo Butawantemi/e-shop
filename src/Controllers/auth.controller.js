@@ -1,12 +1,16 @@
-const { generateToken } = require('../Config/jwtToken');
-const User = require('../Models/user.model');
+const express = require('express');
 const asyncHandler = require('express-async-handler');
-const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
+const nodemailer = require('nodemailer');
+const User = require('../Models/user.model');
+const { generateToken } = require('../Config/jwtToken');
+const router = express.Router();
 const api = process.env.API_URL;
+
 // Create a new user, send verification email, and return the user object
 const createUser = asyncHandler(async (req, res) => {
     const { email } = req.body;
+
     // Check if the user already exists
     const existingUser = await User.findOne({ email });
 
@@ -54,21 +58,22 @@ const sendVerificationEmail = async (email, token, req) => {
     await transporter.sendMail(mailOptions);
 };
 
-
-
 // Verify email using the token
 const verifyEmail = asyncHandler(async (req, res) => {
     const { token } = req.query;
     if (!token) {
+        console.log('Verification token is missing');
         return res.status(400).json({ message: 'Verification token is missing' });
     }
 
     try {
         // Verify the token
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        console.log('Decoded token:', decoded);
         const user = await User.findById(decoded.id);
 
         if (!user) {
+            console.log('User not found');
             return res.status(404).json({ message: 'User not found' });
         }
 
@@ -79,6 +84,7 @@ const verifyEmail = asyncHandler(async (req, res) => {
 
         res.status(200).json({ message: 'Email verified successfully' });
     } catch (err) {
+        console.log('Error verifying token:', err);
         res.status(400).json({ message: 'Invalid or expired verification token' });
     }
 });
@@ -101,7 +107,7 @@ const loginUser = asyncHandler(async (req, res) => {
             lastname: findUser.lastname,
             email: findUser.email,
             mobile: findUser.mobile,
-            token: generateToken(findUser._id)
+            token: generateToken(findUser._id) // Ensure generateToken is correctly used here
         });
     } else {
         res.status(401).json({ message: 'Invalid credentials' });
@@ -122,7 +128,11 @@ const getallUsers = asyncHandler(async (req, res) => {
 const getsingleUser = asyncHandler(async (req, res) => {
     try {
         const user = await User.findById(req.params.id);
-        res.json(user);
+        if (user) {
+            res.json(user);
+        } else {
+            res.status(404).json({ message: 'User not found' });
+        }
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
@@ -133,11 +143,13 @@ const updateUser = asyncHandler(async (req, res) => {
     try {
         const user = await User.findById(req.params.id);
         if (user) {
-            user.firstname = req.body.firstname;
-            user.lastname = req.body.lastname;
-            user.email = req.body.email;
-            user.mobile = req.body.mobile;
-            user.password = req.body.password;
+            user.firstname = req.body.firstname || user.firstname;
+            user.lastname = req.body.lastname || user.lastname;
+            user.email = req.body.email || user.email;
+            user.mobile = req.body.mobile || user.mobile;
+            if (req.body.password) {
+                user.password = req.body.password;
+            }
             const updatedUser = await user.save();
             res.json(updatedUser);
         } else {
@@ -149,14 +161,17 @@ const updateUser = asyncHandler(async (req, res) => {
 });
 
 // Delete a user by ID
-const deleteUser = asyncHandler(async (req, res) => {
-    const { id } = req.params;
+const deleteUser = asyncHandler(async (req, res) =>{
     try {
-        const deleteUser = await User.findByIdAndDelete(id);
-        res.json({ deleteUser });
-    } catch (err) {
-        res.status(500).json({ message: err.message });
+        const user = await User.findByIdAndDelete(req.params.id);
+        if (user) {
+            res.json({ message: 'User deleted successfully' });
+        }else{
+            res.status(404).json({ message: 'User not found' });
+        }
+    }catch(err) {
+        throw new Error(err.message);
     }
-});
+})
 
 module.exports = { createUser, loginUser, getallUsers, getsingleUser, updateUser, deleteUser, verifyEmail };
