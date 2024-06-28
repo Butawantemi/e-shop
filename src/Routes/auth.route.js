@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const { protect, admin } = require("../middleware/auth.middleware")
 const {
   createUser,
   loginUser,
@@ -7,7 +8,9 @@ const {
   getsingleUser,
   updateUser,
   deleteUser,
-  verifyEmail
+  verifyEmail,
+  blockUser, 
+  unblockUser
 } = require("../Controllers/auth.controller");
 
 // Route for user registration (with email verification)
@@ -30,5 +33,9 @@ router.put("/:id", updateUser);
 
 // Route to delete a user by ID
 router.delete("/:id", deleteUser);
+
+//block and unblock user 
+router.put('/block/:id', protect, admin, blockUser);
+router.put('/unblock/:id', protect, admin, unblockUser);
 
 module.exports = router;

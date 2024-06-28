@@ -174,4 +174,30 @@ const deleteUser = asyncHandler(async (req, res) =>{
     }
 })
 
-module.exports = { createUser, loginUser, getallUsers, getsingleUser, updateUser, deleteUser, verifyEmail };
+// Block a user
+const blockUser = asyncHandler(async (req, res) => {
+    const user = await User.findById(req.params.id);
+
+    if (user) {
+        user.isBlocked = true;
+        await user.save();
+        res.status(200).json({ message: 'User blocked successfully' });
+    } else {
+        res.status(404).json({ message: 'User not found' });
+    }
+});
+
+// Unblock a user
+const unblockUser = asyncHandler(async (req, res) => {
+    const user = await User.findById(req.params.id);
+
+    if (user) {
+        user.isBlocked = false;
+        await user.save();
+        res.status(200).json({ message: 'User unblocked successfully' });
+    } else {
+        res.status(404).json({ message: 'User not found' });
+    }
+});
+
+module.exports = { createUser, loginUser, getallUsers, getsingleUser, updateUser, deleteUser, verifyEmail, blockUser, unblockUser };
