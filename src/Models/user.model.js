@@ -37,14 +37,23 @@ var userSchema = new mongoose.Schema({
     verificationToken: {
         type: String,
     },
-});
+    cart: {
+        type: Array,
+        default: []
+    },
+    address: [{ type: ObjectId, ref: 'Address'}],
+    wishlist: [{ type: ObjectId, ref: 'Product'}],
+},
+{
+    timestamps: true
+}
+);
 
 // Encrypt the password before saving the user
 userSchema.pre('save', async function(next) {
     if (!this.isModified('password')) {
         return next();
     }
-
     try {
         const salt = await bcrypt.genSalt(saltRounds);
         this.password = await bcrypt.hash(this.password, salt);
