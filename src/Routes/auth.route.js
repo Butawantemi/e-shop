@@ -10,7 +10,8 @@ const {
   deleteUser,
   verifyEmail,
   blockUser, 
-  unblockUser
+  unblockUser,
+  changeUserRole
 } = require("../Controllers/auth.controller");
 
 // Route for user registration (with email verification)
@@ -33,6 +34,9 @@ router.put("/:id", updateUser);
 
 // Route to delete a user by ID
 router.delete("/:id", deleteUser);
+
+// Change admin role 
+router.put('/change-role/:id', protect, admin, changeUserRole);
 
 //block and unblock user 
 router.put('/block/:id', protect, admin, blockUser);

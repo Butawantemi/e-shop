@@ -174,6 +174,26 @@ const deleteUser = asyncHandler(async (req, res) =>{
     }
 })
 
+// Change user role
+const changeUserRole = asyncHandler(async (req, res) => {
+   try {
+    const { role } = req.body;
+    const user = await User.findById(req.params.id);
+
+    if (user) {
+        user.role = role;
+        await user.save();
+        res.status(200).json({ message: 'User role updated successfully' });
+    } else {
+        res.status(404).json({ message: 'User not found' });
+    }
+   }catch{
+    throw new Error(err.message)
+
+   }
+})
+
+
 // Block a user
 const blockUser = asyncHandler(async (req, res) => {
     const user = await User.findById(req.params.id);
@@ -200,4 +220,4 @@ const unblockUser = asyncHandler(async (req, res) => {
     }
 });
 
-module.exports = { createUser, loginUser, getallUsers, getsingleUser, updateUser, deleteUser, verifyEmail, blockUser, unblockUser };
+module.exports = { createUser, loginUser, getallUsers, getsingleUser, updateUser, deleteUser, verifyEmail, blockUser, unblockUser, changeUserRole };

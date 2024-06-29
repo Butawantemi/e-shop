@@ -1,6 +1,7 @@
 const express = require('express');
 const { dbConnect } = require('./Config/dbConnection');
 const authRoute = require('./Routes/auth.route');
+const { protect, admin } = require('./middleware/auth.middleware')
 const app = express();
 require('dotenv').config();
 
@@ -15,7 +16,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Routes
-app.use(`${api}/user`, authRoute);
+app.use(`${api}/user`, authRoute, protect, admin);
+
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
