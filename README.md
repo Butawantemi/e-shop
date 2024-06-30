@@ -44,3 +44,17 @@ cd e-shop
 ```bash
 npm install
 ```
+3. Set up environment variables:
+Create a .env file in the root directory and add the following variables:
+```bash
+PORT=4000
+MONGO_URI=your_mongodb_uri
+JWT_SECRET=your_jwt_secret
+EMAIL=your_email
+PASSWORD=your_email_password
+API_URL=/api
+```
+4. Start the application:
+```bash
+npm start
+```
