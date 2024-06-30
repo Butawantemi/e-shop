@@ -46,7 +46,7 @@ npm install
 ```
 3. Set up environment variables:
 Create a .env file in the root directory and add the following variables:
-```bash
+```makefile
 PORT=4000
 MONGO_URI=your_mongodb_uri
 JWT_SECRET=your_jwt_secret
