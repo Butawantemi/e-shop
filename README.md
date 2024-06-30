@@ -101,9 +101,9 @@ Here is the basic structure of the project:
   - Verify Email: GET /api/users/verify-email?token=your_verification_token
 
 - User Management
-  - Get All Users: GET /api/users
-  - Get Single User: GET /api/users/:id
-  - Update User: PUT /api/users/:id
-  - Delete User: DELETE /api/users/:id
-  - Block User: PUT /api/users/block/:id
-  -Unblock User: PUT /api/users/unblock/:id
+  - Get All Users: GET /api/v1/users
+  - Get Single User: GET /api/v1/users/:id
+  - Update User: PUT /api/v1/users/:id
+  - Delete User: DELETE /api/v1/users/:id
+  - Block User: PUT /api/v1/users/block/:id
+  - Unblock User: PUT /api/v1/users/unblock/:id
