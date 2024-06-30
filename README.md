@@ -35,12 +35,12 @@ The E-Shop API is a backend service for an e-commerce application, providing fun
 
 To get started with the E-Shop API, follow these steps:
 
+1. Clone the repository:
 ```bash
-# Clone the repository
 git clone https://github.com/Butawantemi/e-shop
-
-# Navigate into the project directory
 cd e-shop
-
-# Install dependencies
+```
+2. Install dependencies:
+```bash
 npm install
+```
